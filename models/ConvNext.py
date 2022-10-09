@@ -71,5 +71,4 @@ def get_convnext_trainer(gpus=1,
                       callbacks=callbacks,
                       logger=logger,
                       strategy="ddp",
-                      find_unused_parameters=True,
                       enable_progress_bar=False)

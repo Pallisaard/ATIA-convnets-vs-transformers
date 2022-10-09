@@ -65,4 +65,5 @@ def get_swin_trainer(gpus=1,
     return pl.Trainer(gpus=gpus,
                       max_epochs=max_epochs,
                       callbacks=callbacks,
-                      logger=logger)
+                      logger=logger,
+                      enable_progress_bar=False)

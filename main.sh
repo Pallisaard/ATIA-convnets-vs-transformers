@@ -15,3 +15,7 @@
 # From here on, we can start our program
 python --version > echo
 echo $CUDA_VISIBLE_DEVICES
+
+echo "Running convnext training on $CUDA_VISIBLE_DEVICES"
+
+python ../main.py	--model "convnext"	--epochs 1	--dataset "cifar10"	--datapath "../data"	--job_id="test"

@@ -37,13 +37,15 @@ def main():
     chp_path = join_paths(main_path, "checkpoints")
     log_path = join_paths(main_path, "logs")
 
+    print("creating checkpoint.")
     checkpoint_callback = ModelCheckpoint(dirpath=chp_path,
                                           filename="{epoch}-{val_loss:.4f}",
                                           monitor="val_loss",
                                           save_top_k=3,
                                           mode="min")
 
-    if args.model == "convnex":
+    if args.model == "convnext":
+        print("initializing ConvNext model.")
         model = ConvNext.ConvNext(lr=args.lr)
         trainer = ConvNext.get_convnext_trainer(gpus=args.gpus,
                                                 max_epochs=args.epochs,
@@ -52,6 +54,7 @@ def main():
         cifar10_image_size = (128, 128)
         isic_2019_image_size = (224, 224)
     else:
+        print("initializing SWIN model.")
         model = SWIN.SWIN()
         trainer = SWIN.get_swin_trainer(gpus=args.gpus,
                                         max_epochs=args.epochs,
@@ -61,6 +64,7 @@ def main():
         isic_2019_image_size = (256, 256)
 
     if args.dataset == "cifar10":
+        print("preparing CIFAR10 dataset.")
         feature_extractor = cifar10.get_cifar10_feature_extractor(cifar10_image_size)
         train_dataset, test_dataset = cifar10.get_cifar10_data(
             root=args.data_path,
@@ -68,18 +72,21 @@ def main():
             test_transforms=feature_extractor
         )
     else:
+        print("preparing ISIC 2019 dataset.")
         feature_extractor = isic_2019.get_isic_2019_feature_extractor(image_size=isic_2019_image_size)
         train_dataset, test_dataset = isic_2019.get_isic_2019_data(
             root=args.data_path,
             transform=feature_extractor
         )
 
+    print("creating data loaders.")
     train_dataloader = DataLoader(train_dataset,
                                   batch_size=args.train_batch_size,
                                   shuffle=True)
     test_dataloader = DataLoader(test_dataset,
                                  batch_size=args.test_batch_size)
 
+    print("fitting model.")
     trainer.fit(model,
                 train_dataloader,
                 test_dataloader)

@@ -68,4 +68,5 @@ def get_convnext_trainer(gpus=1,
                       max_epochs=max_epochs,
                       callbacks=callbacks,
                       logger=logger,
+                      strategy="ddp",
                       enable_progress_bar=False)

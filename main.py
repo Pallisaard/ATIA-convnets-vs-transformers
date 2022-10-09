@@ -18,7 +18,7 @@ def main():
     parser.add_argument("--test_batch_size", type=int, default=256)
     parser.add_argument("--lr", type=float, default=0.05)
     parser.add_argument("--train_split", type=float, default=0.8)
-    parser.add_argument("--gpus", type=int, default=4)
+    parser.add_argument("--gpus", type=int, default=-1)
     parser.add_argument("--num_workers", type=int, default=4)
     parser.add_argument("--job_id", type=str, default=None)
     args = parser.parse_args()

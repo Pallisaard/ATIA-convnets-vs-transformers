@@ -63,7 +63,8 @@ def get_convnext_trainer(gpus=1,
                          log_path="logs/"):
     logger = CSVLogger(log_path, name="convnext")
 
-    return pl.Trainer(gpus=gpus,
+    return pl.Trainer(accelerator="gpu",
+                      devices=gpus,
                       max_epochs=max_epochs,
                       callbacks=callbacks,
                       logger=logger,

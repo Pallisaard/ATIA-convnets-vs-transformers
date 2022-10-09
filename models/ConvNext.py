@@ -63,7 +63,9 @@ def get_convnext_trainer(gpus=1,
                          log_path="logs/"):
     logger = CSVLogger(log_path, name="convnext")
 
-    return pl.Trainer(accelerator="gpu",
+    accel = "gpu" if torch.cuda.is_available() else "cpu"
+    gpus = gpus if torch.cuda.is_available() else 1
+    return pl.Trainer(accelerator=accel,
                       devices=gpus,
                       max_epochs=max_epochs,
                       callbacks=callbacks,

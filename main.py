@@ -82,9 +82,11 @@ def main():
     print("creating data loaders.")
     train_dataloader = DataLoader(train_dataset,
                                   batch_size=args.train_batch_size,
-                                  shuffle=True)
+                                  shuffle=True,
+                                  num_workers=args.num_workers)
     test_dataloader = DataLoader(test_dataset,
-                                 batch_size=args.test_batch_size)
+                                 batch_size=args.test_batch_size,
+                                 num_workers=args.num_workers)
 
     print("fitting model.")
     trainer.fit(model,

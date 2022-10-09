@@ -5,7 +5,7 @@
 #number of independent tasks we are going to start in this script
 #SBATCH --ntasks=1
 #number of cpus we want to allocate for each program
-#SBATCH --cpus-per-task=2
+#SBATCH --cpus-per-task=4
 #the ammount of memory allocated
 #SBATCH --mem=12000M
 #We expect that our program should not run longer than 2 days
@@ -18,4 +18,4 @@ echo $CUDA_VISIBLE_DEVICES
 
 echo "Running convnext training on $CUDA_VISIBLE_DEVICES"
 
-python main.py --model "convnext" --epochs 1 --dataset "cifar10" --data_path "data/datasets/cifar10/" --job_id "test"
+python main.py --model "convnext" --epochs 1 --dataset "cifar10" --data_path "data/datasets/cifar10/" --job_id "test" --num_workers 4

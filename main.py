@@ -29,7 +29,7 @@ def main():
     # print(args.batch_size)
     # print(args.lr)
 
-    main_path = join_paths(args.model + ":" + args.dataset, args.job_id)
+    main_path = join_paths("experiments", args.model + ":" + args.dataset, args.job_id)
     chp_path = join_paths(main_path, "checkpoints")
     log_path = join_paths(main_path, "logs")
 
@@ -40,7 +40,7 @@ def main():
                                           mode="min")
 
     if args.model == "convnex":
-        model = ConvNext.ConvNext(lr=args.lr, )
+        model = ConvNext.ConvNext(lr=args.lr)
         trainer = ConvNext.get_convnext_trainer(gpus=args.gpus,
                                                 max_epochs=args.epochs,
                                                 callbacks=[checkpoint_callback],

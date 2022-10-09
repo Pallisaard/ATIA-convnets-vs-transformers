@@ -1,3 +1,4 @@
+import torch
 import argparse
 import os
 from torch.utils.data import DataLoader
@@ -9,6 +10,9 @@ def join_paths(*args):
     return os.path.join(*args)
 
 def main():
+    print(torch.cuda.version)
+    print(torch.cuda.is_available())
+    print(torch.cuda.device_count())
     parser = argparse.ArgumentParser()
     parser.add_argument('--model', choices=["convnext", "swin"], type=str, required=True)
     parser.add_argument("--dataset", choices=["cifar10", "isic_2019"], type=str, required=True)

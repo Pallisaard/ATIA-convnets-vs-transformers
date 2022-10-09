@@ -62,7 +62,8 @@ def get_swin_trainer(gpus=1,
                      callbacks=[],
                      log_path="logs/"):
     logger = CSVLogger(log_path, name="convnext")
-    return pl.Trainer(gpus=gpus,
+    return pl.Trainer(accelerator="gpu",
+                      devices=gpus,
                       max_epochs=max_epochs,
                       callbacks=callbacks,
                       logger=logger,

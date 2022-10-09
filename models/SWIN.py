@@ -6,6 +6,7 @@ import torch
 from torch import nn
 from transformers import AutoModelForImageClassification
 import pytorch_lightning as pl
+from pytorch_lightning.loggers import CSVLogger
 
 SWIN_MODEL_NAME = "microsoft/swin-base-patch4-window7-224-in22k"
 DEFAULT_ROOT_DIR = "checkpoints/"
@@ -58,5 +59,10 @@ class SWIN(pl.LightningModule):
 
 def get_swin_trainer(gpus=1,
                      max_epochs=10,
-                     callbacks=[]):
-    return pl.Trainer(gpus=gpus, max_epochs=max_epochs, callbacks=callbacks)
+                     callbacks=[],
+                     log_path="logs/"):
+    logger = CSVLogger(log_path, name="convnext")
+    return pl.Trainer(gpus=gpus,
+                      max_epochs=max_epochs,
+                      callbacks=callbacks,
+                      logger=logger)

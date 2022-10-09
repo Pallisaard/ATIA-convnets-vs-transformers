@@ -10,7 +10,7 @@ def join_paths(*args):
     return os.path.join(*args)
 
 def main():
-    print(torch.cuda.version)
+    print(torch.version.cuda)
     print(torch.cuda.is_available())
     print(torch.cuda.device_count())
     parser = argparse.ArgumentParser()

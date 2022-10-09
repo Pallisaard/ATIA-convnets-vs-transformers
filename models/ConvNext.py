@@ -41,7 +41,7 @@ class ConvNext(pl.LightningModule):
 
     def training_step(self, batch, batch_idx, dataset_idx=0):
         inputs, labels = batch
-        outputs = self(inputs).detach()
+        outputs = self(inputs)
         loss = self.loss_fn(outputs, labels)
 
         self.log("train_loss", loss, logger=True, on_epoch=True)
@@ -49,7 +49,7 @@ class ConvNext(pl.LightningModule):
 
     def validation_step(self, batch, batch_idx, dataset_idx=0):
         inputs, labels = batch
-        outputs = self(inputs).detach()
+        outputs = self(inputs)
         loss = self.loss_fn(outputs, labels)
         acc = (outputs.argmax(dim=1) == labels).float().mean()
         self.log("val_loss", loss, on_epoch=True, logger=True)

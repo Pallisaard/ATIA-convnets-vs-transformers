@@ -18,4 +18,4 @@ echo $CUDA_VISIBLE_DEVICES
 
 echo "Running convnext training on $CUDA_VISIBLE_DEVICES"
 
-python main.py --model "convnext" --epochs 1 --dataset "cifar10" --datapath "data/datasets/cifar10/" --job_id "test"
+python main.py --model "convnext" --epochs 1 --dataset "cifar10" --data_path "data/datasets/cifar10/" --job_id "test"

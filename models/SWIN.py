@@ -25,13 +25,15 @@ class SWIN(pl.LightningModule):
     def __init__(self,
                  name="microsoft/swin-base-patch4-window7-224-in22k",
                  num_classes=10,
-                 default_root_dir="checkpoints/"):
+                 default_root_dir="checkpoints/",
+                 lr=0.001):
         super().__init__()
         self.name = name
         self.num_classes = num_classes
         self.default_root_dir = default_root_dir
         self.loss_fn = nn.CrossEntropyLoss()
         self.model = get_swin_model(name, num_classes=num_classes)
+        self.lr = lr
 
     def forward(self, x):
         outs = self.model(x)
@@ -45,7 +47,7 @@ class SWIN(pl.LightningModule):
         return loss
 
     def configure_optimizers(self):
-        optimizer = torch.optim.AdamW(self.parameters(), lr=0.001)
+        optimizer = torch.optim.AdamW(self.parameters(), lr=self.lr)
         return optimizer
 
     def validation_step(self, batch):

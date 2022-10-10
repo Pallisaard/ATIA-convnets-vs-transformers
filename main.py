@@ -55,7 +55,7 @@ def main():
         isic_2019_image_size = (224, 224)
     else:
         print("initializing SWIN model.")
-        model = SWIN.SWIN()
+        model = SWIN.SWIN(lr=args.lr)
         trainer = SWIN.get_swin_trainer(gpus=args.gpus,
                                         max_epochs=args.epochs,
                                         callbacks=[checkpoint_callback],

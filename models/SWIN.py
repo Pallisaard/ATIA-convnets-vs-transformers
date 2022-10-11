@@ -26,7 +26,7 @@ class SWIN(pl.LightningModule):
                  name="microsoft/swin-base-patch4-window7-224-in22k",
                  num_classes=10,
                  default_root_dir="checkpoints/",
-                 lr=0.001):
+                 lr=0.00001):
         super().__init__()
         self.name = name
         self.num_classes = num_classes

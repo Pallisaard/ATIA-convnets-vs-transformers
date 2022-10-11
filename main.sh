@@ -1,7 +1,7 @@
 #!/bin/bash
 #The partition is the queue you want to run on. standard is gpu and can be ommitted.
 #SBATCH -p gpu --gres=gpu:titanrtx:4
-#SBATCH --job-name=ATIAConvNext
+#SBATCH --job-name=atia-conv-cif10
 #number of independent tasks we are going to start in this script
 #SBATCH --array 1-10%5
 #number of cpus we want to allocate for each program
@@ -18,4 +18,4 @@ echo $CUDA_VISIBLE_DEVICES
 
 echo "Running convnext training on $CUDA_VISIBLE_DEVICES"
 
-python main.py --model "convnext" --dataset "cifar10" --data_path "data/datasets/cifar10/" --job_id "${SLURM_ARRAY_TASK_ID}" --num_workers 4
+python main.py --model "convnext" --dataset "cifar10" --data_path "data/datasets/cifar10/" --job_id "${SLURM_ARRAY_TASK_ID}" --num_workers 4 --lr 0.00001

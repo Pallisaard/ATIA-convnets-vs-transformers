@@ -23,7 +23,7 @@ class ConvNext(pl.LightningModule):
     def __init__(self,
                  name=CONVNEXT_MODEL_NAME,
                  num_classes=10,
-                 lr=0.005,
+                 lr=0.00001,
                  warmup_steps = 1000):
         super().__init__()
         self.loss_fn = nn.CrossEntropyLoss()

@@ -39,7 +39,7 @@ class SWIN(pl.LightningModule):
         outs = self.model(x)
         return outs.logits
 
-    def training_step(self, batch):
+    def training_step(self, batch, batch_idx, dataset_idx=0):
         inputs, labels = batch
         outputs = self(inputs)
         loss = self.loss_fn(outputs, labels)
@@ -50,7 +50,7 @@ class SWIN(pl.LightningModule):
         optimizer = torch.optim.AdamW(self.parameters(), lr=self.lr)
         return optimizer
 
-    def validation_step(self, batch):
+    def validation_step(self, batch, batch_idx, dataset_idx=0):
         inputs, labels = batch
         outputs = self(inputs)
         loss = self.loss_fn(outputs, labels)

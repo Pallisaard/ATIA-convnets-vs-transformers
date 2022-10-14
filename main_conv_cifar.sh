@@ -5,7 +5,7 @@
 #number of independent tasks we are going to start in this script
 #SBATCH --array 1-10%3
 #number of cpus we want to allocate for each program
-#SBATCH --cpus-per-task=4
+#SBATCH --cpus-per-task=6
 #the ammount of memory allocated
 #SBATCH --mem=12000M
 #We expect that our program should not run longer than 2 days

@@ -1,7 +1,7 @@
 #!/bin/bash
 #The partition is the queue you want to run on. standard is gpu and can be ommitted.
 #SBATCH -p gpu --gres=gpu:titanrtx:4
-#SBATCH --job-name=atia-conv-cif10
+#SBATCH --job-name=atia-swin-cif10
 #number of independent tasks we are going to start in this script
 #SBATCH --array 1-10%3
 #number of cpus we want to allocate for each program

@@ -1,13 +1,11 @@
 import torch
 import argparse
-import os
+from os import path
 from torch.utils.data import DataLoader
 from pytorch_lightning.callbacks import ModelCheckpoint
 from models import ConvNext, SWIN
 from data import cifar10, isic_2019
 
-def join_paths(*args):
-    return os.path.join(*args)
 
 def main():
     print(torch.version.cuda)
@@ -33,9 +31,9 @@ def main():
     # print(args.batch_size)
     # print(args.lr)
 
-    main_path = join_paths("experiments", args.model + ":" + args.dataset, args.job_id)
-    chp_path = join_paths(main_path, "checkpoints")
-    log_path = join_paths(main_path, "logs")
+    main_path = path.join("experiments", args.model + ":" + args.dataset, args.job_id)
+    chp_path = path.join(main_path, "checkpoints")
+    log_path = path.join(main_path, "logs")
 
     print("creating checkpoint.")
     checkpoint_callback = ModelCheckpoint(dirpath=chp_path,
@@ -92,6 +90,7 @@ def main():
     trainer.fit(model,
                 train_dataloader,
                 test_dataloader)
+
 
 if __name__ == '__main__':
     main()

@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Tuple, List
 from os import path
 
 import PIL
@@ -9,10 +9,11 @@ from torchvision import transforms as T
 import numpy as np
 import pandas as pd
 
+
 def _create_isic_ground_truth_table(filepath: str,
-                                     save_result: bool=True,
-                                     savepath: Optional[str] =None
-                                     )-> pd.DataFrame:
+                                    save_result: bool = True,
+                                    save_path: Optional[str] = None
+                                    ) -> pd.DataFrame:
     isic_labels = pd.read_csv(filepath)
 
     # Format the data into a table having the image name, the label name and the label
@@ -42,11 +43,10 @@ def _create_isic_ground_truth_table(filepath: str,
 
     # Create sample probabilities
     balanced_label_counts = (
-        isic_label_info_balanced
-            .drop(columns=["image"])
-            .groupby(["label"])
-            .count()["label_name"]
-            .values)
+        isic_label_info_balanced.drop(columns=["image"])
+                                .groupby(["label"])
+                                .count()["label_name"]
+                                .values)
     highest_label_count = np.repeat(np.max(balanced_label_counts), len(balanced_label_counts))
     sample_ratios = highest_label_count / balanced_label_counts
     sample_probabilities = sample_ratios / np.sum(sample_ratios)
@@ -54,25 +54,25 @@ def _create_isic_ground_truth_table(filepath: str,
     isic_gt_table = isic_label_info_balanced.copy()
     isic_gt_table["sample_prob"] = sample_probabilities[isic_gt_table["label"].values]
 
-    if save_result and savepath is not None:
-        isic_gt_table.to_csv(savepath, index=False)
+    if save_result and save_path is not None:
+        isic_gt_table.to_csv(save_path, index=False)
 
     return isic_gt_table
 
+
 class ISIC2019Dataset(Dataset):
-    def __init__(self, root: str, transform: nn.Module=None):
+    def __init__(self, root: str, transform: nn.Module = None):
         self.root: str = root
         self.ground_truth = root + "/isic_2019_ground_truth.csv"
-        self.transform: nn.Module = transform
+        self.transform: T.Compose = transform
 
         self.gtdata = _create_isic_ground_truth_table(
             filepath=self.root + "/ISIC_2019_Training_GroundTruth.csv",
-            savepath=self.ground_truth
+            save_path=self.ground_truth
         )
 
         self.gt_data: pd.DataFrame = self._load_gt()
         self.sample_probs: torch.Tensor = torch.Tensor(self.gt_data["sample_prob"].values)
-
 
     def _load_gt(self):
         return pd.read_csv(self.ground_truth)
@@ -96,19 +96,21 @@ class ISIC2019Dataset(Dataset):
     def __len__(self) -> int:
         return len(self.gt_data)
 
-def get_isic_2019_feature_extractor(image_size=224) -> nn.Module:
+
+def get_isic_2019_feature_extractor(image_size: Tuple[int, int] = (224, 224)) -> T.Compose:
     return T.Compose([
         T.PILToTensor(),
         T.Resize(image_size, T.InterpolationMode.BILINEAR, antialias=False),
-        T.RandomCrop((224, 224)),
+        T.RandomCrop(image_size),
         T.ConvertImageDtype(torch.float32),
         T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     ])
 
+
 def get_isic_2019_data(root: str,
-                       transform: nn.Module=None,
-                       train_split: float=0.8,
-                       split_seed: int = 42) -> (Dataset, Dataset):
+                       transform: T.Compose = None,
+                       train_split: float = 0.8,
+                       split_seed: int = 42) -> List[Dataset]:
     ds = ISIC2019Dataset(root, transform)
     lengths = [int(train_split * len(ds)), len(ds) - int(train_split * len(ds))]
     return torch.utils.data.random_split(

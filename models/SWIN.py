@@ -59,6 +59,7 @@ class SWIN(pl.LightningModule):
         inputs, labels = batch
         outputs = self(inputs)
         loss = outputs.loss
+        print(type(loss))
 
         self.manual_backward(loss)
         opt.step()
@@ -72,8 +73,9 @@ class SWIN(pl.LightningModule):
                         dataset_idx: int = 0) -> torch.Tensor:
         inputs, labels = batch
         outputs = self(inputs)
-        loss = self.loss_fn(outputs, labels)
-        acc = torch.eq(outputs.argmax(dim=1), labels).float().mean()
+        logits = outputs.logits
+        loss = outputs.loss
+        acc = torch.eq(logits.argmax(dim=1), labels).float().mean()
         self.log("val_loss", loss, on_epoch=True, logger=True, sync_dist=True)
         self.log("val_acc", acc, on_epoch=True, logger=True, sync_dist=True)
         return loss

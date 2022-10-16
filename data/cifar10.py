@@ -1,7 +1,6 @@
 from typing import Tuple, List
 
 import torch
-from torch import nn
 from torch.utils.data import Dataset
 from torchvision import datasets
 from torchvision import transforms as T

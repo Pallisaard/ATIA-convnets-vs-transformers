@@ -18,4 +18,4 @@ echo $CUDA_VISIBLE_DEVICES
 
 echo "Running convnext training on $CUDA_VISIBLE_DEVICES"
 
-python main.py --model "convnext" --train_batch_size 128 --dataset "isic2019" --data_path "data/datasets/isic2019/" --job_id "${SLURM_ARRAY_TASK_ID}" --num_workers 4 --lr 0.00001
+python main.py --model "convnext" --train_batch_size 128 --dataset "isic_2019" --data_path "data/datasets/isic2019/" --job_id "${SLURM_ARRAY_TASK_ID}" --num_workers 4 --lr 0.00001

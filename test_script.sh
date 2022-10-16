@@ -13,7 +13,7 @@
 #SBATCH --time=4:00:00
 #Skipping many options! see man sbatch
 # From here on, we can start our program
-python --version > echo
+echo python --version
 echo $CUDA_VISIBLE_DEVICES
 
 python testing_python.py

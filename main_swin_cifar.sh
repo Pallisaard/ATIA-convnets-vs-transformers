@@ -4,7 +4,6 @@
 #SBATCH --job-name=atia-swin-cif10
 #number of independent tasks we are going to start in this script
 #SBATCH --ntasks=1
-
 #number of cpus we want to allocate for each program
 #SBATCH --cpus-per-task=6
 #the ammount of memory allocated

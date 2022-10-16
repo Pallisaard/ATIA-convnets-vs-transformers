@@ -63,11 +63,11 @@ def _create_isic_ground_truth_table(filepath: str,
 class ISIC2019Dataset(Dataset):
     def __init__(self, root: str, transform: nn.Module = None):
         self.root: str = root
-        self.ground_truth = root + "/isic_2019_ground_truth.csv"
+        self.ground_truth = self.root + "isic_2019_ground_truth.csv"
         self.transform: T.Compose = transform
 
         self.gtdata = _create_isic_ground_truth_table(
-            filepath=self.root + "/ISIC_2019_Training_GroundTruth.csv",
+            filepath=self.root + "ISIC_2019_Training_GroundTruth.csv",
             save_path=self.ground_truth
         )
 

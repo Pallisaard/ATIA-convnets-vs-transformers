@@ -50,7 +50,6 @@ class SWIN(pl.LightningModule):
                       batch: Tuple[torch.Tensor, torch.Tensor],
                       batch_idx: torch.Tensor,
                       dataset_idx: int = 0) -> torch.Tensor:
-
         inputs, labels = batch
         outputs = self(inputs)
         loss = self.loss_fn(outputs, labels)

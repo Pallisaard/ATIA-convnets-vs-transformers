@@ -44,25 +44,16 @@ class SWIN(pl.LightningModule):
         return optimizer
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return self.model(x)
-
-    def pred(self, x: torch.Tensor) -> torch.Tensor:
         return self.model(x).logits
 
     def training_step(self,
                       batch: Tuple[torch.Tensor, torch.Tensor],
                       batch_idx: torch.Tensor,
                       dataset_idx: int = 0) -> torch.Tensor:
-        opt = self.optimizers()
-        opt.zero_grad()
 
         inputs, labels = batch
         outputs = self(inputs)
-        loss = outputs.loss
-        print(type(loss))
-
-        self.manual_backward(loss)
-        opt.step()
+        loss = self.loss_fn(outputs, labels)
 
         self.log("train_loss", loss, logger=True, on_epoch=True, sync_dist=True)
         return loss
@@ -73,9 +64,8 @@ class SWIN(pl.LightningModule):
                         dataset_idx: int = 0) -> torch.Tensor:
         inputs, labels = batch
         outputs = self(inputs)
-        logits = outputs.logits
-        loss = outputs.loss
-        acc = torch.eq(logits.argmax(dim=1), labels).float().mean()
+        loss = self.loss_fn(outputs, labels)
+        acc = torch.eq(outputs.argmax(dim=1), labels).float().mean()
         self.log("val_loss", loss, on_epoch=True, logger=True, sync_dist=True)
         self.log("val_acc", acc, on_epoch=True, logger=True, sync_dist=True)
         return loss

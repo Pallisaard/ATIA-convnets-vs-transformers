@@ -37,24 +37,34 @@ class SWIN(pl.LightningModule):
         self.loss_fn = nn.CrossEntropyLoss()
         self.model = get_swin_model(name, num_classes=num_classes)
         self.lr = lr
+        self.automatic_optimization = False
+
+    def configure_optimizers(self) -> optim.AdamW:
+        optimizer = optim.AdamW(self.parameters(), lr=self.lr)
+        return optimizer
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        outs = self.model(x)
-        return outs.logits
+        return self.model(x)
+
+    def pred(self, x: torch.Tensor) -> torch.Tensor:
+        return self.model(x).logits
 
     def training_step(self,
                       batch: Tuple[torch.Tensor, torch.Tensor],
                       batch_idx: torch.Tensor,
                       dataset_idx: int = 0) -> torch.Tensor:
+        opt = self.optimizers()
+        opt.zero_grad()
+
         inputs, labels = batch
         outputs = self(inputs)
-        loss = self.loss_fn(outputs, labels)
-        self.log("train_loss", loss)
-        return loss
+        loss = outputs.loss
 
-    def configure_optimizers(self) -> optim.AdamW:
-        optimizer = optim.AdamW(self.parameters(), lr=self.lr)
-        return optimizer
+        self.manual_backward(loss)
+        opt.step()
+
+        self.log("train_loss", loss, logger=True, on_epoch=True, sync_dist=True)
+        return loss
 
     def validation_step(self,
                         batch: Tuple[torch.Tensor, torch.Tensor],
@@ -64,8 +74,8 @@ class SWIN(pl.LightningModule):
         outputs = self(inputs)
         loss = self.loss_fn(outputs, labels)
         acc = torch.eq(outputs.argmax(dim=1), labels).float().mean()
-        self.log("val_loss", loss)
-        self.log("val_acc", acc)
+        self.log("val_loss", loss, on_epoch=True, logger=True, sync_dist=True)
+        self.log("val_acc", acc, on_epoch=True, logger=True, sync_dist=True)
         return loss
 
 
@@ -75,10 +85,11 @@ def get_swin_trainer(gpus: int = 1,
                      log_path: str = "logs/"):
     if callbacks is None:
         callbacks = []
-    logger = CSVLogger(log_path, name="convnext")
+    logger = CSVLogger(log_path, name="swin")
     return pl.Trainer(accelerator="gpu",
                       devices=gpus,
                       max_epochs=max_epochs,
                       callbacks=callbacks,
                       logger=logger,
+                      strategy="ddp",
                       enable_progress_bar=False)

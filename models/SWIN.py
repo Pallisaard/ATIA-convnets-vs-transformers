@@ -37,7 +37,6 @@ class SWIN(pl.LightningModule):
         self.loss_fn = nn.CrossEntropyLoss()
         self.model = get_swin_model(name, num_classes=num_classes)
         self.lr = lr
-        self.automatic_optimization = False
 
     def configure_optimizers(self) -> optim.AdamW:
         optimizer = optim.AdamW(self.parameters(), lr=self.lr)

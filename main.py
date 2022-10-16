@@ -5,7 +5,7 @@ from torch.utils.data import DataLoader
 from pytorch_lightning.callbacks import ModelCheckpoint
 from models import ConvNext, SWIN
 from data import cifar10, isic_2019
-
+#####SBATCH --array 1-10%3
 
 def main():
     print(torch.version.cuda)

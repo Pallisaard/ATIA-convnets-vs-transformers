@@ -59,7 +59,7 @@ class ConvNext(pl.LightningModule):
         inputs, labels = batch
         outputs = self(inputs)
         loss = self.loss_fn(outputs, labels)
-        acc = torch.equal(outputs.argmax(dim=1), labels).float().mean()
+        acc = torch.eq(outputs.argmax(dim=1), labels).float().mean()
         self.log("val_loss", loss, on_epoch=True, logger=True, sync_dist=True)
         self.log("val_acc", acc, on_epoch=True, logger=True, sync_dist=True)
         return loss

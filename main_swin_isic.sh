@@ -18,4 +18,6 @@ echo $CUDA_VISIBLE_DEVICES
 
 echo "Running convnext training on $CUDA_VISIBLE_DEVICES"
 
-python main.py --model "swin" --train_batch_size 8 --dataset "isic_2019" --data_path "data/datasets/isic_2019/" --job_id "${SLURM_ARRAY_TASK_ID}" --num_workers 4 --lr 0.00001
+PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:512
+
+python main.py --model "swin" --train_batch_size 16 --dataset "isic_2019" --data_path "data/datasets/isic_2019/" --job_id "${SLURM_ARRAY_TASK_ID}" --num_workers 4 --lr 0.00001

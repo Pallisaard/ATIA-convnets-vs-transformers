@@ -11,7 +11,7 @@
 #SBATCH --mem=12000M
 #We expect that our program should not run longer than 2 days
 #Note that a program will be killed once it exceeds this time!
-#SBATCH --time=4:00:00
+#SBATCH --time=8:00:00
 #Skipping many options! see man sbatch
 # From here on, we can start our program
 # python --version > echo
@@ -19,4 +19,4 @@ echo $CUDA_VISIBLE_DEVICES
 
 echo "Running convnext training on $CUDA_VISIBLE_DEVICES"
 
-python main.py --model "swin" --train_batch_size 32 --dataset "cifar10" --data_path "data/datasets/cifar10/" --job_id "${SLURM_ARRAY_TASK_ID}" --num_workers 4 --lr 0.00001 --epochs 1
+python main.py --model "swin" --train_batch_size 32 --dataset "cifar10" --data_path "data/datasets/cifar10/" --job_id "${SLURM_ARRAY_TASK_ID}" --num_workers 2 --lr 0.00001 --epochs 1

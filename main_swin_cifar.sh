@@ -3,7 +3,7 @@
 #SBATCH -p gpu --gres=gpu:titanrtx:4
 #SBATCH --job-name=atia-swin-cif10
 #number of independent tasks we are going to start in this script
-#SBtACH --array 1-10%3
+#SBATCH --array 1-10%3
 # comment on --ntasks=1
 #number of cpus we want to allocate for each program
 #SBATCH --cpus-per-task=6

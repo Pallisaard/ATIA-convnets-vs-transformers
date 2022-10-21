@@ -66,7 +66,7 @@ def main():
         MODEL_VERSIONS,
         args.experiment_dir
     )
-    results.to_csv("accuracy_results.csv", index=False)
+    results.to_csv("results/accuracy_results.csv", index=False)
 
 if __name__ == "__main__":
     main()

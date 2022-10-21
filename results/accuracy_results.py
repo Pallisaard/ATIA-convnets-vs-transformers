@@ -6,7 +6,7 @@ import argparse
 print("current path:", os.getcwd())
 
 MODEL_NAMES = ["convnext:cifar10", "convnext:isic_2019", "swin:cifar10", "swin:isic_2019"]
-MODEL_VERSIONS = list(range(10))
+MODEL_VERSIONS = [str(i) for i in range(1, 11)]
 EXPERIMENT_DIR = "../experiments"
 
 def get_log_dir(experiment_dir: str,

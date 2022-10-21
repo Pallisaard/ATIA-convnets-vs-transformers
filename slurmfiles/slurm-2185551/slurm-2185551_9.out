@@ -1,0 +1,257 @@
+0,2,3,4
+Running convnext training on 0,2,3,4
+/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/functional.py:478: UserWarning: torch.meshgrid: in an upcoming release, it will be required to pass the indexing argument. (Triggered internally at  /opt/conda/conda-bld/pytorch_1659484803030/work/aten/src/ATen/native/TensorShape.cpp:2894.)
+  return _VF.meshgrid(tensors, **kwargs)  # type: ignore[attr-defined]
+Some weights of SwinForImageClassification were not initialized from the model checkpoint at microsoft/swin-base-patch4-window7-224-in22k and are newly initialized because the shapes did not match:
+- classifier.weight: found shape torch.Size([21841, 1024]) in the checkpoint and torch.Size([10, 1024]) in the model instantiated
+- classifier.bias: found shape torch.Size([21841]) in the checkpoint and torch.Size([10]) in the model instantiated
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+11.6
+True
+4
+creating checkpoint.
+initializing SWIN model.
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/functional.py:478: UserWarning: torch.meshgrid: in an upcoming release, it will be required to pass the indexing argument. (Triggered internally at  /opt/conda/conda-bld/pytorch_1659484803030/work/aten/src/ATen/native/TensorShape.cpp:2894.)
+  return _VF.meshgrid(tensors, **kwargs)  # type: ignore[attr-defined]
+Some weights of SwinForImageClassification were not initialized from the model checkpoint at microsoft/swin-base-patch4-window7-224-in22k and are newly initialized because the shapes did not match:
+- classifier.weight: found shape torch.Size([21841, 1024]) in the checkpoint and torch.Size([10, 1024]) in the model instantiated
+- classifier.bias: found shape torch.Size([21841]) in the checkpoint and torch.Size([10]) in the model instantiated
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+11.6
+True
+4
+creating checkpoint.
+initializing SWIN model.
+Initializing distributed: GLOBAL_RANK: 1, MEMBER: 2/4
+/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/functional.py:478: UserWarning: torch.meshgrid: in an upcoming release, it will be required to pass the indexing argument. (Triggered internally at  /opt/conda/conda-bld/pytorch_1659484803030/work/aten/src/ATen/native/TensorShape.cpp:2894.)
+  return _VF.meshgrid(tensors, **kwargs)  # type: ignore[attr-defined]
+Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/4
+Some weights of SwinForImageClassification were not initialized from the model checkpoint at microsoft/swin-base-patch4-window7-224-in22k and are newly initialized because the shapes did not match:
+- classifier.weight: found shape torch.Size([21841, 1024]) in the checkpoint and torch.Size([10, 1024]) in the model instantiated
+- classifier.bias: found shape torch.Size([21841]) in the checkpoint and torch.Size([10]) in the model instantiated
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+11.6
+True
+4
+creating checkpoint.
+initializing SWIN model.
+Initializing distributed: GLOBAL_RANK: 2, MEMBER: 3/4
+/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/functional.py:478: UserWarning: torch.meshgrid: in an upcoming release, it will be required to pass the indexing argument. (Triggered internally at  /opt/conda/conda-bld/pytorch_1659484803030/work/aten/src/ATen/native/TensorShape.cpp:2894.)
+  return _VF.meshgrid(tensors, **kwargs)  # type: ignore[attr-defined]
+Some weights of SwinForImageClassification were not initialized from the model checkpoint at microsoft/swin-base-patch4-window7-224-in22k and are newly initialized because the shapes did not match:
+- classifier.weight: found shape torch.Size([21841, 1024]) in the checkpoint and torch.Size([10, 1024]) in the model instantiated
+- classifier.bias: found shape torch.Size([21841]) in the checkpoint and torch.Size([10]) in the model instantiated
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+11.6
+True
+4
+creating checkpoint.
+initializing SWIN model.
+Initializing distributed: GLOBAL_RANK: 3, MEMBER: 4/4
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 4 processes
+----------------------------------------------------------------------------------------------------
+
+preparing ISIC 2019 dataset.
+creating data loaders.
+fitting model.
+preparing ISIC 2019 dataset.
+creating data loaders.
+fitting model.
+preparing ISIC 2019 dataset.
+creating data loaders.
+fitting model.
+preparing ISIC 2019 dataset.
+creating data loaders.
+fitting model.
+LOCAL_RANK: 2 - CUDA_VISIBLE_DEVICES: [0,2,3,4]
+LOCAL_RANK: 3 - CUDA_VISIBLE_DEVICES: [0,2,3,4]
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,2,3,4]
+LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,2,3,4]
+
+  | Name    | Type                       | Params
+-------------------------------------------------------
+0 | loss_fn | CrossEntropyLoss           | 0     
+1 | model   | SwinForImageClassification | 86.8 M
+-------------------------------------------------------
+86.8 M    Trainable params
+0         Non-trainable params
+86.8 M    Total params
+347.014   Total estimated model params size (MB)
+Traceback (most recent call last):
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 648, in _call_and_handle_interrupt
+    return self.strategy.launcher.launch(trainer_fn, *args, trainer=self, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/strategies/launchers/subprocess_script.py", line 93, in launch
+    return function(*args, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 735, in _fit_impl
+    results = self._run(model, ckpt_path=self.ckpt_path)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1166, in _run
+    results = self._run_stage()
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1252, in _run_stage
+    return self._run_train()
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1274, in _run_train
+    self._run_sanity_check()
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1343, in _run_sanity_check
+    val_loop.run()
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/loops/loop.py", line 200, in run
+    self.advance(*args, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/loops/dataloader/evaluation_loop.py", line 155, in advance
+    dl_outputs = self.epoch_loop.run(self._data_fetcher, dl_max_batches, kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/loops/loop.py", line 200, in run
+    self.advance(*args, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/loops/epoch/evaluation_epoch_loop.py", line 143, in advance
+    output = self._evaluation_step(**kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/loops/epoch/evaluation_epoch_loop.py", line 240, in _evaluation_step
+    output = self.trainer._call_strategy_hook(hook_name, *kwargs.values())
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1704, in _call_strategy_hook
+    output = fn(*args, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/strategies/ddp.py", line 358, in validation_step
+    return self.model(*args, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/parallel/distributed.py", line 1008, in forward
+    output = self._run_ddp_forward(*inputs, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/parallel/distributed.py", line 969, in _run_ddp_forward
+    return module_to_run(*inputs[0], **kwargs[0])
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/overrides/base.py", line 90, in forward
+    return self.module.validation_step(*inputs, **kwargs)
+  File "/home/dwp992/home/projects/ATIA-convnets-vs-transformers/models/SWIN.py", line 65, in validation_step
+    outputs = self(inputs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/dwp992/home/projects/ATIA-convnets-vs-transformers/models/SWIN.py", line 46, in forward
+    return self.model(x).logits
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/transformers/models/swin/modeling_swin.py", line 1165, in forward
+    outputs = self.swin(
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/transformers/models/swin/modeling_swin.py", line 978, in forward
+    encoder_outputs = self.encoder(
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/transformers/models/swin/modeling_swin.py", line 820, in forward
+    layer_outputs = layer_module(hidden_states, input_dimensions, layer_head_mask, output_attentions)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/transformers/models/swin/modeling_swin.py", line 742, in forward
+    layer_outputs = layer_module(hidden_states, input_dimensions, layer_head_mask, output_attentions)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/transformers/models/swin/modeling_swin.py", line 673, in forward
+    attention_outputs = self.attention(
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/transformers/models/swin/modeling_swin.py", line 553, in forward
+    self_outputs = self.self(hidden_states, attention_mask, head_mask, output_attentions)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/transformers/models/swin/modeling_swin.py", line 461, in forward
+    key_layer = self.transpose_for_scores(self.key(hidden_states))
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/modules/linear.py", line 114, in forward
+    return F.linear(input, self.weight, self.bias)
+RuntimeError: CUDA out of memory. Tried to allocate 1.20 GiB (GPU 0; 23.65 GiB total capacity; 5.62 GiB already allocated; 167.31 MiB free; 5.89 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/dwp992/home/projects/ATIA-convnets-vs-transformers/main.py", line 96, in <module>
+    main()
+  File "/home/dwp992/home/projects/ATIA-convnets-vs-transformers/main.py", line 90, in main
+    trainer.fit(model,
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 696, in fit
+    self._call_and_handle_interrupt(
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 662, in _call_and_handle_interrupt
+    self.strategy.reconciliate_processes(traceback.format_exc())
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/strategies/ddp.py", line 454, in reconciliate_processes
+    raise DeadlockDetectedException(f"DeadLock detected from rank: {self.global_rank} \n {trace}")
+pytorch_lightning.utilities.exceptions.DeadlockDetectedException: DeadLock detected from rank: 0 
+ Traceback (most recent call last):
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 648, in _call_and_handle_interrupt
+    return self.strategy.launcher.launch(trainer_fn, *args, trainer=self, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/strategies/launchers/subprocess_script.py", line 93, in launch
+    return function(*args, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 735, in _fit_impl
+    results = self._run(model, ckpt_path=self.ckpt_path)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1166, in _run
+    results = self._run_stage()
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1252, in _run_stage
+    return self._run_train()
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1274, in _run_train
+    self._run_sanity_check()
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1343, in _run_sanity_check
+    val_loop.run()
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/loops/loop.py", line 200, in run
+    self.advance(*args, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/loops/dataloader/evaluation_loop.py", line 155, in advance
+    dl_outputs = self.epoch_loop.run(self._data_fetcher, dl_max_batches, kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/loops/loop.py", line 200, in run
+    self.advance(*args, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/loops/epoch/evaluation_epoch_loop.py", line 143, in advance
+    output = self._evaluation_step(**kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/loops/epoch/evaluation_epoch_loop.py", line 240, in _evaluation_step
+    output = self.trainer._call_strategy_hook(hook_name, *kwargs.values())
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1704, in _call_strategy_hook
+    output = fn(*args, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/strategies/ddp.py", line 358, in validation_step
+    return self.model(*args, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/parallel/distributed.py", line 1008, in forward
+    output = self._run_ddp_forward(*inputs, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/parallel/distributed.py", line 969, in _run_ddp_forward
+    return module_to_run(*inputs[0], **kwargs[0])
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/pytorch_lightning/overrides/base.py", line 90, in forward
+    return self.module.validation_step(*inputs, **kwargs)
+  File "/home/dwp992/home/projects/ATIA-convnets-vs-transformers/models/SWIN.py", line 65, in validation_step
+    outputs = self(inputs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/dwp992/home/projects/ATIA-convnets-vs-transformers/models/SWIN.py", line 46, in forward
+    return self.model(x).logits
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/transformers/models/swin/modeling_swin.py", line 1165, in forward
+    outputs = self.swin(
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/transformers/models/swin/modeling_swin.py", line 978, in forward
+    encoder_outputs = self.encoder(
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/transformers/models/swin/modeling_swin.py", line 820, in forward
+    layer_outputs = layer_module(hidden_states, input_dimensions, layer_head_mask, output_attentions)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/transformers/models/swin/modeling_swin.py", line 742, in forward
+    layer_outputs = layer_module(hidden_states, input_dimensions, layer_head_mask, output_attentions)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/transformers/models/swin/modeling_swin.py", line 673, in forward
+    attention_outputs = self.attention(
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/transformers/models/swin/modeling_swin.py", line 553, in forward
+    self_outputs = self.self(hidden_states, attention_mask, head_mask, output_attentions)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/transformers/models/swin/modeling_swin.py", line 461, in forward
+    key_layer = self.transpose_for_scores(self.key(hidden_states))
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/dwp992/miniconda3/envs/ml/lib/python3.10/site-packages/torch/nn/modules/linear.py", line 114, in forward
+    return F.linear(input, self.weight, self.bias)
+RuntimeError: CUDA out of memory. Tried to allocate 1.20 GiB (GPU 0; 23.65 GiB total capacity; 5.62 GiB already allocated; 167.31 MiB free; 5.89 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+

@@ -1,0 +1,4 @@
+current path: /home/dwp992/home/projects/ATIA-convnets-vs-transformers
+Warning - FileNotFoundError: convnext:isic_2019 5 9
+Warning - FileNotFoundError: swin:isic_2019 9 0
+Warning - FileNotFoundError: swin:isic_2019 10 0

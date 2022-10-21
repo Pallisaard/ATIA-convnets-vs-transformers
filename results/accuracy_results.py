@@ -1,6 +1,9 @@
 import os
 from os import path
 import pandas as pd
+import argparse
+
+print("current path:", os.getcwd())
 
 MODEL_NAMES = ["convnext:cifar10", "convnext:isic_2019", "swin:cifar10", "swin:isic_2019"]
 MODEL_VERSIONS = list(range(10))
@@ -49,10 +52,15 @@ def generate_accuracy_results_df(model_names: list,
     return pd.DataFrame(results)
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--experiment_dir", type=str, default=EXPERIMENT_DIR)
+    args = parser.parse_args()
+    
+    
     results = generate_accuracy_results_df(
         MODEL_NAMES,
         MODEL_VERSIONS,
-        EXPERIMENT_DIR
+        args.experiment_dir
     )
     results.to_csv("accuracy_results.csv", index=False)
 

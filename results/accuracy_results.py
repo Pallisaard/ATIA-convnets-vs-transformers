@@ -41,17 +41,18 @@ def generate_accuracy_results_df(model_names: list,
             log_dir = get_log_dir(experiment_dir, model_name, model_version)
             checkpoint_dir = get_checkpoint_dir(experiment_dir, model_name, model_version)
             log_file = get_log_file(log_dir)
-            checkpoint_file_names = get_checkpoint_file_names(checkpoint_dir)
-            for checkpoint_file in checkpoint_file_names:
-                epoch = get_epoch_from_checkpoint_file(checkpoint_file)
-                acc = get_acc_from_log_file(log_file, epoch)
-                try:
+            try:
+                checkpoint_file_names = get_checkpoint_file_names(checkpoint_dir)
+                for checkpoint_file in checkpoint_file_names:
+                    epoch = get_epoch_from_checkpoint_file(checkpoint_file)
+                    acc = get_acc_from_log_file(log_file, epoch)
+                    
                     results.append({"model_name": model_name,
-                                    "model_version": model_version,
-                                    "epoch": epoch,
-                                    "val_acc": acc})
-                except FileNotFoundError:
-                    print(f"Warning - FileNotFoundError: {model_name} {model_version} {epoch}")
+                                        "model_version": model_version,
+                                        "epoch": epoch,
+                                        "val_acc": acc})
+            except FileNotFoundError:
+                print(f"Warning - FileNotFoundError: {model_name} {model_version} {epoch}")
     return pd.DataFrame(results)
 
 def main():

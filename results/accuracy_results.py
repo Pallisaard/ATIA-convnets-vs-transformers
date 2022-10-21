@@ -19,8 +19,8 @@ def get_checkpoint_dir(experiment_dir: str,
                        experiment_n: int) -> str:
     return path.join(experiment_dir, experiment_name, experiment_n, "checkpoints")
 
-def get_log_file(log_dir: str) -> pd.DataFrame:
-    return pd.read_csv(path.join(log_dir, "convnext", "version_0", "metrics.csv"))
+def get_log_file(log_dir: str, model_name) -> pd.DataFrame:
+    return pd.read_csv(path.join(log_dir, model_name, "version_0", "metrics.csv"))
 
 def get_checkpoint_file_names(checkpoint_dir: str) -> list:
     return os.listdir(checkpoint_dir)
@@ -41,7 +41,7 @@ def generate_accuracy_results_df(model_names: list,
             log_dir = get_log_dir(experiment_dir, model_name, model_version)
             checkpoint_dir = get_checkpoint_dir(experiment_dir, model_name, model_version)
             try:
-                log_file = get_log_file(log_dir)
+                log_file = get_log_file(log_dir, model_name.split(":")[0])
                 checkpoint_file_names = get_checkpoint_file_names(checkpoint_dir)
                 for checkpoint_file in checkpoint_file_names:
                     epoch = get_epoch_from_checkpoint_file(checkpoint_file)

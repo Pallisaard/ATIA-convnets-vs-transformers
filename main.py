@@ -11,8 +11,10 @@ def main():
     print(torch.cuda.is_available())
     print(torch.cuda.device_count())
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model', choices=["convnext", "swin"], type=str, required=True)
-    parser.add_argument("--dataset", choices=["cifar10", "isic_2019"], type=str, required=True)
+    parser.add_argument('--model', choices=["convnext", "swin"],
+                        type=str, required=True)
+    parser.add_argument("--dataset", choices=["cifar10", "isic_2019"],
+                        type=str, required=True)
     parser.add_argument("--data_path", type=str, required=True)
     parser.add_argument("--epochs", type=int, default=30)
     parser.add_argument("--train_batch_size", type=int, default=256)
@@ -22,6 +24,8 @@ def main():
     parser.add_argument("--gpus", type=int, default=-1)
     parser.add_argument("--num_workers", type=int, default=4)
     parser.add_argument("--job_id", type=str, default=None)
+    parser.add_argument("--img_size", type=int, default=0)
+    parser.add_argument("--identifier", type=str, default=None)
     args = parser.parse_args()
 
     # print(args.model)
@@ -30,7 +34,10 @@ def main():
     # print(args.batch_size)
     # print(args.lr)
 
-    main_path = path.join("experiments", args.model + ":" + args.dataset, args.job_id)
+    set_image_size = args.img_size if args.img_size != 0 else None
+
+    model_identifier = args.model + args.identifier if args.identifier is not None else args.model
+    main_path = path.join("experiments", model_identifier + ":" + args.dataset, args.job_id)
     chp_path = path.join(main_path, "checkpoints")
     log_path = path.join(main_path, "logs")
 
@@ -48,8 +55,12 @@ def main():
                                                 max_epochs=args.epochs,
                                                 callbacks=[checkpoint_callback],
                                                 log_path=log_path)
-        cifar10_image_size = (128, 128)
-        isic_2019_image_size = (224, 224)
+        if set_image_size is not None:
+            cifar10_image_size = (set_image_size, set_image_size)
+            isic_2019_image_size = (set_image_size, set_image_size)
+        else:
+            cifar10_image_size = (128, 128)
+            isic_2019_image_size = (224, 224)
     else:
         print("initializing SWIN model.")
         model = SWIN.SWIN(lr=args.lr)
@@ -57,8 +68,12 @@ def main():
                                         max_epochs=args.epochs,
                                         callbacks=[checkpoint_callback],
                                         log_path=log_path)
-        cifar10_image_size = (224, 224)
-        isic_2019_image_size = (256, 256)
+        if set_image_size is not None:
+            cifar10_image_size = (set_image_size, set_image_size)
+            isic_2019_image_size = (set_image_size, set_image_size)
+        else:
+            cifar10_image_size = (224, 224)
+            isic_2019_image_size = (256, 256)
 
     if args.dataset == "cifar10":
         print("preparing CIFAR10 dataset.")

@@ -10,7 +10,7 @@
 #SBATCH --mem=12000M
 #We expect that our program should not run longer than 2 days
 #Note that a program will be killed once it exceeds this time!
-#SBATCH --time=4:00:00
+#SBATCH --time=8:00:00
 #Skipping many options! see man sbatch
 # From here on, we can start our program
 # python --version > echo

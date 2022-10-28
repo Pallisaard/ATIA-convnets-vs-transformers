@@ -49,7 +49,7 @@ def main():
     checkpoint_callback = ModelCheckpoint(dirpath=chp_path,
                                           filename="{epoch}-{val_loss:.4f}",
                                           monitor="val_loss",
-                                          save_top_k=3,
+                                          save_top_k=1,
                                           mode="min")
 
     if args.model == "convnext":
@@ -87,15 +87,15 @@ def main():
             train_transforms=feature_extractor,
             test_transforms=feature_extractor
         )
-        
+
         num_train = len(train_dataset)
         indices = list(range(num_train))
         split = int(np.floor(0.2 * num_train))
-        
+
         train_idx, valid_idx = indices[split:], indices[:split]
         train_sampler = SubsetRandomSampler(train_idx)
         valid_sampler = SubsetRandomSampler(valid_idx)
-        
+
         train_dataloader = torch.utils.data.DataLoader(
             train_dataset, 
             batch_size=args.train_batch_size,

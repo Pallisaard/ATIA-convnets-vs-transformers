@@ -41,7 +41,7 @@ def main():
     set_image_size = args.img_size if args.img_size != 0 else None
 
     model_identifier = args.model + args.identifier if args.identifier is not None else args.model
-    main_path = path.join("experiments", model_identifier + ":" + args.dataset, args.job_id)
+    main_path = path.join("experiments", model_identifier + "-" + args.dataset, args.job_id)
     chp_path = path.join(main_path, "checkpoints")
     log_path = path.join(main_path, "logs")
 

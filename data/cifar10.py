@@ -10,11 +10,11 @@ DEFAULT_DATA_DIR = "datasets/"
 
 def get_cifar10_train(root: str = DEFAULT_DATA_DIR,
                       transforms: T.Compose = None) -> Dataset:
-    return datasets.CIFAR10(root=root,
+    ds = datasets.CIFAR10(root=root,
                             train=True,
                             download=True,
                             transform=transforms)
-
+    return ds
 
 def get_cifar10_test(root: str = DEFAULT_DATA_DIR,
                      transforms: T.Compose = None) -> Dataset:

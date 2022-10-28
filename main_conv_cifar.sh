@@ -3,7 +3,8 @@
 #SBATCH -p gpu --gres=gpu:titanrtx:4
 #SBATCH --job-name=atia-conv-cif10
 #number of independent tasks we are going to start in this script
-#SBATCH --array 1-10%3
+# noope array 1-10%3
+#SBATCH --ntasks=1
 #number of cpus we want to allocate for each program
 #SBATCH --cpus-per-task=6
 #the ammount of memory allocated
@@ -18,4 +19,4 @@ echo $CUDA_VISIBLE_DEVICES
 
 echo "Running convnext training on $CUDA_VISIBLE_DEVICES"
 
-python main.py --model "convnext" --dataset "cifar10" --data_path "data/datasets/cifar10/" --job_id "${SLURM_ARRAY_TASK_ID}" --num_workers 4 --lr 0.00001
+python main.py --model "convnext" --dataset "cifar10" --data_path "data/datasets/cifar10/" --job_id "${SLURM_ARRAY_TASK_ID}" --num_workers 4 --lr 0.00001 --epochs 1

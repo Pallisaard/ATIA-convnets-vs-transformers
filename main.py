@@ -3,8 +3,12 @@ import argparse
 from os import path
 from torch.utils.data import DataLoader
 from pytorch_lightning.callbacks import ModelCheckpoint
+import numpy as np
+from torch.utils.data.sampler import SubsetRandomSampler
+
 from models import ConvNext, SWIN
 from data import cifar10, isic_2019
+
 
 def main():
     print(torch.version.cuda)
@@ -83,27 +87,65 @@ def main():
             train_transforms=feature_extractor,
             test_transforms=feature_extractor
         )
+        
+        num_train = len(train_dataset)
+        indices = list(range(num_train))
+        split = int(np.floor(0.2 * num_train))
+        
+        train_idx, valid_idx = indices[split:], indices[:split]
+        train_sampler = SubsetRandomSampler(train_idx)
+        valid_sampler = SubsetRandomSampler(valid_idx)
+        
+        train_dataloader = torch.utils.data.DataLoader(
+            train_dataset, 
+            batch_size=args.train_batch_size,
+            sampler=train_sampler,
+            num_workers=args.num_workers,
+            shuffle=True
+        )
+        val_dataloader = torch.utils.data.DataLoader(
+            train_dataset,
+            batch_size=args.test_batch_size,
+            sampler=valid_sampler,
+            num_workers=args.num_workers,
+            shuffle=False
+        )
+        test_dataloader = DataLoader(test_dataset,
+                                     batch_size=args.test_batch_size,
+                                     num_workers=args.num_workers)
+
+
     else:
         print("preparing ISIC 2019 dataset.")
-        feature_extractor = isic_2019.get_isic_2019_feature_extractor(image_size=isic_2019_image_size)
-        train_dataset, test_dataset = isic_2019.get_isic_2019_data(
+        feature_extractor = isic_2019.get_isic_2019_feature_extractor(
+            image_size=isic_2019_image_size
+        )
+        train_dataset, val_dataset = isic_2019.get_isic_2019_data(
             root=args.data_path,
             transform=feature_extractor
         )
+        test_dataset = isic_2019.ISIC2019Dataset(
+            root=args.data_path,
+            transform=feature_extractor,
+            mode="test"
+        )
+        train_dataloader = DataLoader(train_dataset,
+                                      batch_size=args.train_batch_size,
+                                      shuffle=True,
+                                      num_workers=args.num_workers)
+        val_dataloader = DataLoader(val_dataset,
+                                    batch_size=args.test_batch_size,
+                                    num_workers=args.num_workers)
 
     print("creating data loaders.")
-    train_dataloader = DataLoader(train_dataset,
-                                  batch_size=args.train_batch_size,
-                                  shuffle=True,
-                                  num_workers=args.num_workers)
-    test_dataloader = DataLoader(test_dataset,
-                                 batch_size=args.test_batch_size,
-                                 num_workers=args.num_workers)
+
 
     print("fitting model.")
     trainer.fit(model,
                 train_dataloader,
-                test_dataloader)
+                val_dataloader)
+
+    trainer.test(dataloaders=test_dataloader)
 
 
 if __name__ == '__main__':

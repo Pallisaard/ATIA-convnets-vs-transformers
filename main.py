@@ -100,8 +100,7 @@ def main():
             train_dataset, 
             batch_size=args.train_batch_size,
             sampler=train_sampler,
-            num_workers=args.num_workers,
-            shuffle=True
+            num_workers=args.num_workers
         )
         val_dataloader = torch.utils.data.DataLoader(
             train_dataset,
@@ -136,6 +135,9 @@ def main():
         val_dataloader = DataLoader(val_dataset,
                                     batch_size=args.test_batch_size,
                                     num_workers=args.num_workers)
+        test_dataloader = DataLoader(test_dataset,
+                                     batch_size=args.test_batch_size,
+                                     num_workers=args.num_workers)
 
     print("creating data loaders.")
 

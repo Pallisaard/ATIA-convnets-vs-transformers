@@ -69,6 +69,17 @@ class SWIN(pl.LightningModule):
         self.log("val_acc", acc, on_epoch=True, logger=True, sync_dist=True)
         return loss
 
+    def test_step(self,
+                  batch: Tuple[torch.Tensor, torch.Tensor],
+                  batch_idx: torch.Tensor,
+                  dataset_idx: int = 0) -> torch.Tensor:
+        inputs, labels = batch
+        outputs = self(inputs)
+        loss = self.loss_fn(outputs, labels)
+        acc = torch.eq(outputs.argmax(dim=1), labels).float().mean()
+        self.log("test_loss", loss, on_epoch=True, logger=True, sync_dist=True)
+        self.log("test_acc", acc, on_epoch=True, logger=True, sync_dist=True)
+        return loss
 
 def get_swin_trainer(gpus: int = 1,
                      max_epochs: int = 10,

@@ -3,38 +3,32 @@ from typing import Tuple, Optional, List
 import torch
 from torch import nn
 from torch import optim
-from timm.models import create_model
+from torchinfo import summary
 import pytorch_lightning as pl
 from pytorch_lightning.loggers import CSVLogger
 
-
-CONVNEXT_MODEL_NAME = "convnext_base_in22k"
-DEFAULT_ROOT_DIR = "checkpoints/"
+RESNET50 = "resnet50"
 
 
-def get_convnext_model(convnext_model_name: str, num_classes: int = 10):
-    return create_model(convnext_model_name,
-                        pretrained=True,
-                        num_classes=num_classes)
+def get_resnet_model(name: str, num_classes: int) -> nn.Module:
+    model = torch.hub.load('pytorch/vision', name, weights="IMAGENET1K_V2")
+    model.fc = nn.Linear(model.fc.in_features, num_classes)
+    return model
 
 
-class ConvNext(pl.LightningModule):
-    def __init__(self,
-                 name: str = CONVNEXT_MODEL_NAME,
+class Resnet50(pl.LightningModule):
+    def __init__(self, name: str = RESNET50,
                  num_classes: int = 10,
-                 lr: float = 0.005,
-                 warmup_steps: int = 1000):
-        super().__init__()
+                 lr: float = 0.005):
+        super.__init__()
         self.loss_fn = nn.CrossEntropyLoss()
-        self.model = get_convnext_model(name, num_classes)
-        # self.automatic_optimization = False
-        self.warmup_steps = warmup_steps
+        self.model = get_resnet_model(name, num_classes)
         self.lr = lr
-
+    
     def configure_optimizers(self) -> optim.AdamW:
         optimizer = optim.AdamW(self.parameters(), lr=self.lr)
         return optimizer
-
+    
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.model(x)
 
@@ -48,7 +42,7 @@ class ConvNext(pl.LightningModule):
 
         self.log("train_loss", loss, logger=True, on_epoch=True, sync_dist=True)
         return loss
-
+    
     def validation_step(self,
                         batch: Tuple[torch.Tensor, torch.Tensor],
                         batch_idx: torch.Tensor,
@@ -74,10 +68,10 @@ class ConvNext(pl.LightningModule):
         return loss
 
 
-def get_convnext_trainer(gpus: int = 1,
-                         max_epochs: int = 10,
-                         callbacks: Optional[List[pl.callbacks.Callback]] = None,
-                         log_path: str = "logs/"):
+def get_resnet_trainer(gpus: int = 1,
+                       max_epochs: int = 10,
+                       callbacks: Optional[List[pl.callbacks.Callback]] = None,
+                       log_path: str = "logs/"):
     if callbacks is None:
         callbacks = []
     logger = CSVLogger(log_path, name="convnext")
@@ -91,3 +85,8 @@ def get_convnext_trainer(gpus: int = 1,
                       logger=logger,
                       strategy="ddp",
                       enable_progress_bar=False)
+
+
+def get_info(model):
+    test_input = (1, 3, 224, 224)
+    return summary(model, test_input, verbose=0)

@@ -1,13 +1,15 @@
-import torch
 import argparse
+import json
 from os import path
-from torch.utils.data import DataLoader
-from pytorch_lightning.callbacks import ModelCheckpoint
+
 import numpy as np
+import torch
+from pytorch_lightning.callbacks import ModelCheckpoint
+from torch.utils.data import DataLoader
 from torch.utils.data.sampler import SubsetRandomSampler
 
-from models import ConvNext, SWIN
 from data import cifar10, isic_2019
+from models import SWIN, ConvNext, Resnet50
 
 
 def main():
@@ -17,7 +19,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--model', choices=["convnext", "swin"],
                         type=str, required=True)
-    parser.add_argument("--dataset", choices=["cifar10", "isic_2019"],
+    parser.add_argument("--dataset", choices=["cifar10", "isic_2019", "resnet50"],
                         type=str, required=True)
     parser.add_argument("--data_path", type=str, required=True)
     parser.add_argument("--epochs", type=int, default=30)
@@ -37,6 +39,10 @@ def main():
     # print(args.epochs)
     # print(args.batch_size)
     # print(args.lr)
+
+    # Print a title of the experiment containing the hyperparameters
+    hyperparams = vars(args)
+    print("Experiment: ", hyperparams)
 
     set_image_size = args.img_size if args.img_size != 0 else None
 
@@ -64,8 +70,8 @@ def main():
             isic_2019_image_size = (set_image_size, set_image_size)
         else:
             cifar10_image_size = (128, 128)
-            isic_2019_image_size = (224, 224)
-    else:
+            isic_2019_image_size = (224, 224)    
+    elif args.model == "swin":
         print("initializing SWIN model.")
         model = SWIN.SWIN(lr=args.lr)
         trainer = SWIN.get_swin_trainer(gpus=args.gpus,
@@ -78,6 +84,19 @@ def main():
         else:
             cifar10_image_size = (224, 224)
             isic_2019_image_size = (256, 256)
+    else:  # args.model == "resnet50":
+        print("initializing ResNet50 model.")
+        model = Resnet50.Resnet50(lr=args.lr)
+        trainer = Resnet50.get_resnet50_trainer(gpus=args.gpus,
+                                                max_epochs=args.epochs,
+                                                callbacks=[checkpoint_callback],
+                                                log_path=log_path)
+        if set_image_size is not None:
+            cifar10_image_size = (set_image_size, set_image_size)
+            isic_2019_image_size = (set_image_size, set_image_size)
+        else:
+            cifar10_image_size = (128, 128)
+            isic_2019_image_size = (224, 224)
 
     if args.dataset == "cifar10":
         print("preparing CIFAR10 dataset.")
@@ -97,7 +116,7 @@ def main():
         valid_sampler = SubsetRandomSampler(valid_idx)
 
         train_dataloader = torch.utils.data.DataLoader(
-            train_dataset, 
+            train_dataset,
             batch_size=args.train_batch_size,
             sampler=train_sampler,
             num_workers=args.num_workers
@@ -112,7 +131,6 @@ def main():
         test_dataloader = DataLoader(test_dataset,
                                      batch_size=args.test_batch_size,
                                      num_workers=args.num_workers)
-
 
     else:
         print("preparing ISIC 2019 dataset.")
@@ -141,13 +159,16 @@ def main():
 
     print("creating data loaders.")
 
-
     print("fitting model.")
     trainer.fit(model,
                 train_dataloader,
                 val_dataloader)
 
-    trainer.test(dataloaders=test_dataloader)
+    print("testing model.")
+    test_results = trainer.test(dataloaders=test_dataloader)
+
+    with open(f"results/test_results_{args.model}_{args.dataset}.json", "w", encoding="utf8") as f:
+        json.dump(test_results, f)
 
 
 if __name__ == '__main__':

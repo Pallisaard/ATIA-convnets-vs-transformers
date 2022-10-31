@@ -1,6 +1,6 @@
 #!/bin/bash
 #The partition is the queue you want to run on. standard is gpu and can be ommitted.
-#SBATCH --gres=gpu:titanrtx:4
+#SBATCH --gres=gpu:1
 #SBATCH --job-name=atia-conv-cif10
 #number of independent tasks we are going to start in this script
 # noope array 1-10%3
@@ -11,7 +11,7 @@
 #SBATCH --mem=12000M
 #We expect that our program should not run longer than 2 days
 #Note that a program will be killed once it exceeds this time!
-#SBATCH --time=4:00:00
+#SBATCH --time=8:00:00
 #Skipping many options! see man sbatch
 # From here on, we can start our program
 # python --version > echo

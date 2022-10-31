@@ -1,5 +1,6 @@
 from typing import Tuple, Optional, List
 
+from torchvision.models import resnet50, ResNet50_Weights
 import torch
 from torch import nn
 from torch import optim
@@ -11,7 +12,7 @@ RESNET50 = "resnet50"
 
 
 def get_resnet_model(name: str, num_classes: int) -> nn.Module:
-    model = torch.hub.load('pytorch/vision', name, weights="IMAGENET1K_V2")
+    model = resnet50(weights=ResNet50_Weights.IMAGENET1K_V1)
     model.fc = nn.Linear(model.fc.in_features, num_classes)
     return model
 
@@ -20,7 +21,7 @@ class Resnet50(pl.LightningModule):
     def __init__(self, name: str = RESNET50,
                  num_classes: int = 10,
                  lr: float = 0.005):
-        super.__init__()
+        super().__init__()
         self.loss_fn = nn.CrossEntropyLoss()
         self.model = get_resnet_model(name, num_classes)
         self.lr = lr

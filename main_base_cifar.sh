@@ -1,6 +1,6 @@
 #!/bin/bash
 #The partition is the queue you want to run on. standard is gpu and can be ommitted.
-#SBATCH --gres=gpu:4
+#SBATCH --gres=gpu:titanrtx:4
 #SBATCH --job-name=atia-conv-cif10
 #number of independent tasks we are going to start in this script
 # noope array 1-10%3
